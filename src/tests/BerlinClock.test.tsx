@@ -69,4 +69,40 @@ describe('BerlinClock component (minimal)', () => {
 
     vi.useRealTimers();
   });
-});
+
+  it('renders 5-minute and single-minute lamps for a given time', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-06-17T13:17:00'));
+
+    const { getByTestId } = render(<BerlinClock />);
+
+    expect(getByTestId('five-minute-0').classList.contains('on')).toBe(true);
+    expect(getByTestId('five-minute-1').classList.contains('on')).toBe(true);
+    expect(getByTestId('five-minute-2').classList.contains('on')).toBe(true);
+    expect(getByTestId('five-minute-3').classList.contains('off')).toBe(true);
+    expect(getByTestId('five-minute-4').classList.contains('off')).toBe(true);
+
+    expect(getByTestId('single-minute-0').classList.contains('on')).toBe(true);
+    expect(getByTestId('single-minute-1').classList.contains('on')).toBe(true);
+    expect(getByTestId('single-minute-2').classList.contains('off')).toBe(true);
+    expect(getByTestId('single-minute-3').classList.contains('off')).toBe(true);
+
+    vi.useRealTimers();
+  });
+  it('renders quarter-minute markers only at the 3rd, 6th, and 9th five-minute lamps', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-06-17T13:17:00'));
+
+    const { getByTestId } = render(<BerlinClock />);
+
+    expect(getByTestId('five-minute-2').classList.contains('quarter')).toBe(true);
+    expect(getByTestId('five-minute-5').classList.contains('quarter')).toBe(true);
+    expect(getByTestId('five-minute-8').classList.contains('quarter')).toBe(true);
+    expect(getByTestId('five-minute-3').classList.contains('quarter')).toBe(false);
+    expect(getByTestId('five-minute-4').classList.contains('quarter')).toBe(false);
+    expect(getByTestId('five-minute-3').classList.contains('Stryker')).toBe(false);
+    expect(getByTestId('five-minute-3').classList.contains('was')).toBe(false);
+    expect(getByTestId('five-minute-3').classList.contains('here!')).toBe(false);
+
+    vi.useRealTimers();
+  });});
