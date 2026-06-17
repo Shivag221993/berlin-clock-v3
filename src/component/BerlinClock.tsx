@@ -1,4 +1,4 @@
-import useCurrentTime from '../hooks/useCurrentTime';
+import useCurrentTime, { CurrentTime } from '../hooks/useCurrentTime';
 import { getFiveHourLamps, getSingleHourLamps } from '../common/hoursLogic';
 import { getFiveMinuteLamps, getSingleMinuteLamps } from '../common/minutesLogic';
 import { isSecondsLampOn } from '../common/secondsLogic';
@@ -16,16 +16,21 @@ import {
   CLASS_QUARTER,
   CLASS_SECONDS_CIRCLE,
   CURRENT_TIME_LABEL_TEXT,
+  INPUT_BUTTON_GROUP_LABEL,
   QUARTER_MINUTE_DIVISOR,
   QUARTER_MINUTE_REMAINDER,
+  RESET_BUTTON_TEXT,
   TEST_ID_FIVE_HOUR_PREFIX,
   TEST_ID_FIVE_MINUTE_PREFIX,
   TEST_ID_SINGLE_HOUR_PREFIX,
   TEST_ID_SINGLE_MINUTE_PREFIX,
+  TIME_INPUT_LABEL,
+  TIME_INPUT_PLACEHOLDER,
   TIME_PAD_CHARACTER,
   TIME_PAD_LENGTH,
 } from '../constants';
 import './BerlinClock.css';
+import { useState } from 'react';
 
 const getTimeString = (hours: number, minutes: number, seconds: number) => {
   const paddedHours = String(hours).padStart(TIME_PAD_LENGTH, TIME_PAD_CHARACTER);
@@ -34,16 +39,76 @@ const getTimeString = (hours: number, minutes: number, seconds: number) => {
   return `${paddedHours}:${paddedMinutes}:${paddedSeconds}`;
 };
 
+const parseTimeString = (value: string): CurrentTime | null => {
+  const normalizedValue = value.trim();
+  const match = normalizedValue.match(/^(\d{1,2}):(\d{1,2}):(\d{1,2})$/);
+  if (!match) return null;
+
+  const parsedHours = Number(match[1]);
+  const parsedMinutes = Number(match[2]);
+  const parsedSeconds = Number(match[3]);
+
+  if (
+    parsedHours < 0 || parsedHours > 23 ||
+    parsedMinutes < 0 || parsedMinutes > 59 ||
+    parsedSeconds < 0 || parsedSeconds > 59
+  ) {
+    return null;
+  }
+
+  return {
+    hours: parsedHours,
+    minutes: parsedMinutes,
+    seconds: parsedSeconds,
+  };
+};
+
 export function BerlinClock() {
-  const { hours, minutes, seconds } = useCurrentTime();
-  const isSecondsOn = isSecondsLampOn(seconds);
-  const fiveHourLamps = getFiveHourLamps(hours);
-  const singleHourLamps = getSingleHourLamps(hours);
-  const fiveMinuteLamps = getFiveMinuteLamps(minutes);
-  const singleMinuteLamps = getSingleMinuteLamps(minutes);
+  const currentTime = useCurrentTime();
+  const [manualTime, setManualTime] = useState<CurrentTime | null>(null);
+  const [timeInputValue, setTimeInputValue] = useState<string>(getTimeString(currentTime.hours, currentTime.minutes, currentTime.seconds));
+
+  const displayTime = manualTime ?? currentTime;
+  const inputValue = manualTime ? timeInputValue : getTimeString(currentTime.hours, currentTime.minutes, currentTime.seconds);
+
+  const handleTimeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const nextValue = event.target.value;
+    setTimeInputValue(nextValue);
+
+    const parsedTime = parseTimeString(nextValue);
+    if (parsedTime) {
+      setManualTime(parsedTime);
+    }
+  };
+
+  const handleResetClick = () => {
+    setManualTime(null);
+  };
+
+  const isSecondsOn = isSecondsLampOn(displayTime.seconds);
+  const fiveHourLamps = getFiveHourLamps(displayTime.hours);
+  const singleHourLamps = getSingleHourLamps(displayTime.hours);
+  const fiveMinuteLamps = getFiveMinuteLamps(displayTime.minutes);
+  const singleMinuteLamps = getSingleMinuteLamps(displayTime.minutes);
 
   return (
     <div className={CLASS_BERLIN_CLOCK}>
+      <div className="time-controls" aria-label={INPUT_BUTTON_GROUP_LABEL}>
+        <label className="time-input-label" htmlFor="berlin-time-input">
+          {TIME_INPUT_LABEL}
+        </label>
+        <input
+          id="berlin-time-input"
+          className="time-input"
+          type="text"
+          value={inputValue}
+          placeholder={TIME_INPUT_PLACEHOLDER}
+          onChange={handleTimeInputChange}
+        />
+        <button className="time-reset-button" type="button" onClick={handleResetClick}>
+          {RESET_BUTTON_TEXT}
+        </button>
+      </div>
       <div className={`${CLASS_SECONDS_CIRCLE} ${isSecondsOn ? CLASS_ON : CLASS_OFF}`} aria-label={ARIA_SECONDS_LAMP} />
       <div className="hours-row" aria-label={ARIA_FIVE_HOUR_ROW}>
         {fiveHourLamps.map((lampOn, lampIndex) => (
@@ -81,7 +146,7 @@ export function BerlinClock() {
           />
         ))}
       </div>
-      <div className="current-time">{CURRENT_TIME_LABEL_TEXT} {getTimeString(hours, minutes, seconds)}</div>
+      <div className="current-time">{CURRENT_TIME_LABEL_TEXT} {getTimeString(displayTime.hours, displayTime.minutes, displayTime.seconds)}</div>
     </div>
   );
 }

@@ -92,3 +92,39 @@
 .single-hour-row {
   justify-content: center;
 }
+
+.time-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.time-input {
+  width: 160px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.time-input-label {
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.time-reset-button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #2f80ed;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.time-reset-button:hover {
+  background: #1f6cd9;
+}

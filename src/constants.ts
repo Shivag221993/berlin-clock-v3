@@ -32,3 +32,8 @@ export const TEST_ID_FIVE_HOUR_PREFIX = 'five-hour-';
 export const TEST_ID_SINGLE_HOUR_PREFIX = 'single-hour-';
 export const TEST_ID_FIVE_MINUTE_PREFIX = 'five-minute-';
 export const TEST_ID_SINGLE_MINUTE_PREFIX = 'single-minute-';
+
+export const TIME_INPUT_PLACEHOLDER = 'HH:MM:SS';
+export const TIME_INPUT_LABEL = 'Enter time';
+export const RESET_BUTTON_TEXT = 'Reset to current time';
+export const INPUT_BUTTON_GROUP_LABEL = 'Time controls';
