@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { MILLISECONDS_PER_SECOND } from '../constants';
 
 export interface CurrentTime {
   hours: number;
@@ -6,29 +7,26 @@ export interface CurrentTime {
   seconds: number;
 }
 
+function getSystemTime(): CurrentTime {
+  const currentDateTime = new Date();
+  return {
+    hours: currentDateTime.getHours(),
+    minutes: currentDateTime.getMinutes(),
+    seconds: currentDateTime.getSeconds(),
+  };
+}
+
 export function useCurrentTime() {
-  const [time, setTime] = useState<CurrentTime>(() => {
-    const now = new Date();
-    return {
-      hours: now.getHours(),
-      minutes: now.getMinutes(),
-      seconds: now.getSeconds(),
-    };
-  });
+  const [currentTime, setCurrentTime] = useState<CurrentTime>(() => getSystemTime());
 
   useEffect(() => {
-    const id = setInterval(() => {
-      const now = new Date();
-      setTime({
-        hours: now.getHours(),
-        minutes: now.getMinutes(),
-        seconds: now.getSeconds(),
-      });
-    }, 1000);
-    return () => clearInterval(id);
+    const intervalId = setInterval(() => {
+      setCurrentTime(getSystemTime());
+    }, MILLISECONDS_PER_SECOND);
+    return () => clearInterval(intervalId);
   }, []);
 
-  return time;
+  return currentTime;
 }
 
 export default useCurrentTime;

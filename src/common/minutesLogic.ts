@@ -1,11 +1,18 @@
+import {
+  FIVE_MINUTE_LAMP_COUNT,
+  MAX_MINUTES_SECONDS,
+  MINUTES_PER_FIVE_MINUTE_LAMP,
+  SINGLE_MINUTE_LAMP_COUNT,
+} from '../constants';
+
 export function getFiveMinuteLamps(minutes: number): boolean[] {
-  const m = Math.max(0, Math.min(59, Math.floor(minutes)));
-  const active = Math.floor(m / 5);
-  return Array.from({ length: 11 }, (_, index) => index < active);
+  const sanitizedMinutes = Math.max(0, Math.min(MAX_MINUTES_SECONDS, Math.floor(minutes)));
+  const activeFiveMinuteLamps = Math.floor(sanitizedMinutes / MINUTES_PER_FIVE_MINUTE_LAMP);
+  return Array.from({ length: FIVE_MINUTE_LAMP_COUNT }, (_, lampIndex) => lampIndex < activeFiveMinuteLamps);
 }
 
 export function getSingleMinuteLamps(minutes: number): boolean[] {
-  const m = Math.max(0, Math.min(59, Math.floor(minutes)));
-  const active = m % 5;
-  return Array.from({ length: 4 }, (_, index) => index < active);
+  const sanitizedMinutes = Math.max(0, Math.min(MAX_MINUTES_SECONDS, Math.floor(minutes)));
+  const activeSingleMinuteLamps = sanitizedMinutes % MINUTES_PER_FIVE_MINUTE_LAMP;
+  return Array.from({ length: SINGLE_MINUTE_LAMP_COUNT }, (_, lampIndex) => lampIndex < activeSingleMinuteLamps);
 }
