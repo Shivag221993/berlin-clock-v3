@@ -11,7 +11,7 @@ describe('BerlinClock component (minimal)', () => {
     const lamp = getByLabelText('seconds-lamp');
 
     expect(lamp.classList.contains('on')).toBe(true);
-    expect(getByText(/Seconds:/).textContent).toContain('58');
+    expect(getByText(/Current Time:/).textContent).toContain('12:00:58');
 
     vi.useRealTimers();
   });
@@ -24,7 +24,29 @@ describe('BerlinClock component (minimal)', () => {
     const lamp = getByLabelText('seconds-lamp');
 
     expect(lamp.classList.contains('off')).toBe(true);
-    expect(getByText(/Seconds:/).textContent).toContain('59');
+    expect(getByText(/Current Time:/).textContent).toContain('12:00:59');
+
+    vi.useRealTimers();
+  });
+
+  it('displays current time in HH:MM:SS format', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-06-17T09:05:03'));
+
+    const { getByText } = render(<BerlinClock />);
+
+    expect(getByText(/Current Time:/).textContent).toContain('09:05:03');
+
+    vi.useRealTimers();
+  });
+
+  it('displays formatted time with leading zeros', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-06-17T01:02:05'));
+
+    const { getByText } = render(<BerlinClock />);
+
+    expect(getByText(/Current Time:/).textContent).toContain('01:02:05');
 
     vi.useRealTimers();
   });
