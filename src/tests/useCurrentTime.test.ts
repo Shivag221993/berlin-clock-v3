@@ -1,4 +1,4 @@
-import { act, renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useCurrentTime } from '../hooks/useCurrentTime';
 
@@ -68,7 +68,7 @@ describe('useCurrentTime hook', () => {
     vi.setSystemTime(new Date('2026-06-17T14:30:45'));
     const { unmount } = renderHook(() => useCurrentTime());
 
-    const clearIntervalSpy = vi.spyOn(global, 'clearInterval');
+    const clearIntervalSpy = vi.spyOn(globalThis, 'clearInterval');
     unmount();
 
     expect(clearIntervalSpy).toHaveBeenCalled();

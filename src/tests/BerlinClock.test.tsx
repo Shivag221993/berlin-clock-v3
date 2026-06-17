@@ -50,4 +50,23 @@ describe('BerlinClock component (minimal)', () => {
 
     vi.useRealTimers();
   });
+
+  it('renders 5-hour and single-hour lamps for a given time', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-06-17T13:00:00'));
+
+    const { getByTestId } = render(<BerlinClock />);
+
+    expect(getByTestId('five-hour-0').classList.contains('on')).toBe(true);
+    expect(getByTestId('five-hour-1').classList.contains('on')).toBe(true);
+    expect(getByTestId('five-hour-2').classList.contains('off')).toBe(true);
+    expect(getByTestId('five-hour-3').classList.contains('off')).toBe(true);
+
+    expect(getByTestId('single-hour-0').classList.contains('on')).toBe(true);
+    expect(getByTestId('single-hour-1').classList.contains('on')).toBe(true);
+    expect(getByTestId('single-hour-2').classList.contains('on')).toBe(true);
+    expect(getByTestId('single-hour-3').classList.contains('off')).toBe(true);
+
+    vi.useRealTimers();
+  });
 });
