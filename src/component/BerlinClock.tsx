@@ -2,6 +2,7 @@ import useCurrentTime, { CurrentTime } from '../hooks/useCurrentTime';
 import { getFiveHourLamps, getSingleHourLamps } from '../common/hoursLogic';
 import { getFiveMinuteLamps, getSingleMinuteLamps } from '../common/minutesLogic';
 import { isSecondsLampOn } from '../common/secondsLogic';
+import { LampRow } from './LampRow';
 import {
   ARIA_FIVE_HOUR_ROW,
   ARIA_FIVE_MINUTE_ROW,
@@ -114,46 +115,41 @@ export function BerlinClock() {
         className={`${CLASS_SECONDS_CIRCLE} ${isSecondsOn ? CLASS_ON : CLASS_OFF}`}
         aria-label={`${ARIA_SECONDS_LAMP} 0 ${isSecondsOn ? 'on' : 'off'}`}
       />
-      <div className="hours-row" aria-label={ARIA_FIVE_HOUR_ROW}>
-        {fiveHourLamps.map((lampOn, lampIndex) => (
-          <span
-            key={lampIndex}
-            className={`${CLASS_HOUR_LAMP} ${lampOn ? CLASS_ON : CLASS_OFF}`}
-            data-testid={`${TEST_ID_FIVE_HOUR_PREFIX}${lampIndex}`}
-            aria-label={`${ARIA_FIVE_HOUR_ROW} ${lampIndex} ${lampOn ? 'on' : 'off'}`}
-          />
-        ))}
-      </div>
-      <div className="hours-row" aria-label={ARIA_SINGLE_HOUR_ROW}>
-        {singleHourLamps.map((lampOn, lampIndex) => (
-          <span
-            key={lampIndex}
-            className={`${CLASS_HOUR_LAMP} ${lampOn ? CLASS_ON : CLASS_OFF}`}
-            data-testid={`${TEST_ID_SINGLE_HOUR_PREFIX}${lampIndex}`}
-            aria-label={`${ARIA_SINGLE_HOUR_ROW} ${lampIndex} ${lampOn ? 'on' : 'off'}`}
-          />
-        ))}
-      </div>
-      <div className="minutes-row" aria-label={ARIA_FIVE_MINUTE_ROW}>
-        {fiveMinuteLamps.map((lampOn, lampIndex) => (
-          <span
-            key={lampIndex}
-            className={`${CLASS_MINUTE_LAMP_FIRST_ROW} ${lampOn ? CLASS_ON : CLASS_OFF} ${lampIndex % QUARTER_MINUTE_DIVISOR === QUARTER_MINUTE_REMAINDER ? CLASS_QUARTER : ''}`}
-            data-testid={`${TEST_ID_FIVE_MINUTE_PREFIX}${lampIndex}`}
-            aria-label={`${ARIA_FIVE_MINUTE_ROW} ${lampIndex} ${lampOn ? 'on' : 'off'}`}
-          />
-        ))}
-      </div>
-      <div className="minutes-row" aria-label={ARIA_SINGLE_MINUTE_ROW}>
-        {singleMinuteLamps.map((lampOn, lampIndex) => (
-          <span
-            key={lampIndex}
-            className={`${CLASS_MINUTE_LAMP_SECOND_ROW} ${lampOn ? CLASS_ON : CLASS_OFF}`}
-            data-testid={`${TEST_ID_SINGLE_MINUTE_PREFIX}${lampIndex}`}
-            aria-label={`${ARIA_SINGLE_MINUTE_ROW} ${lampIndex} ${lampOn ? 'on' : 'off'}`}
-          />
-        ))}
-      </div>
+      <LampRow
+        rowClassName="hours-row"
+        rowAriaLabel={ARIA_FIVE_HOUR_ROW}
+        lampStates={fiveHourLamps}
+        lampClassName={CLASS_HOUR_LAMP}
+        testIdPrefix={TEST_ID_FIVE_HOUR_PREFIX}
+        ariaLabelPrefix={ARIA_FIVE_HOUR_ROW}
+      />
+      <LampRow
+        rowClassName="hours-row"
+        rowAriaLabel={ARIA_SINGLE_HOUR_ROW}
+        lampStates={singleHourLamps}
+        lampClassName={CLASS_HOUR_LAMP}
+        testIdPrefix={TEST_ID_SINGLE_HOUR_PREFIX}
+        ariaLabelPrefix={ARIA_SINGLE_HOUR_ROW}
+      />
+      <LampRow
+        rowClassName="minutes-row"
+        rowAriaLabel={ARIA_FIVE_MINUTE_ROW}
+        lampStates={fiveMinuteLamps}
+        lampClassName={CLASS_MINUTE_LAMP_FIRST_ROW}
+        testIdPrefix={TEST_ID_FIVE_MINUTE_PREFIX}
+        ariaLabelPrefix={ARIA_FIVE_MINUTE_ROW}
+        additionalLampClass={(lampIndex) => (
+          lampIndex % QUARTER_MINUTE_DIVISOR === QUARTER_MINUTE_REMAINDER ? CLASS_QUARTER : ''
+        )}
+      />
+      <LampRow
+        rowClassName="minutes-row"
+        rowAriaLabel={ARIA_SINGLE_MINUTE_ROW}
+        lampStates={singleMinuteLamps}
+        lampClassName={CLASS_MINUTE_LAMP_SECOND_ROW}
+        testIdPrefix={TEST_ID_SINGLE_MINUTE_PREFIX}
+        ariaLabelPrefix={ARIA_SINGLE_MINUTE_ROW}
+      />
       <div className="current-time">{CURRENT_TIME_LABEL_TEXT} {getTimeString(displayTime.hours, displayTime.minutes, displayTime.seconds)}</div>
     </div>
   );
