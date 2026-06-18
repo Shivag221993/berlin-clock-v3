@@ -55,6 +55,20 @@ describe('BerlinClock component (minimal)', () => {
     expect(getByText(/Current Time:/).textContent).toContain('12:00:59');
   });
 
+  it('uses the correct aria-label for the seconds lamp', () => {
+    const { getByLabelText } = renderBerlinClockAt('2026-06-17T12:00:58');
+    const lamp = getByLabelText(/seconds lamp 0 on/i);
+
+    expect(lamp.getAttribute('aria-label')).toBe('seconds lamp 0 on');
+  });
+
+  it('uses the correct aria-label for the seconds lamp', () => {
+    const { getByLabelText } = renderBerlinClockAt('2026-06-17T12:00:57');
+    const lamp = getByLabelText(/seconds lamp 0 off/i);
+
+    expect(lamp.getAttribute('aria-label')).toBe('seconds lamp 0 off');
+  });
+
   it('displays current time in HH:MM:SS format', () => {
     const { getByText } = renderBerlinClockAt('2026-06-17T09:05:03');
 

@@ -51,9 +51,9 @@ const parseTimeString = (value: string): CurrentTime | null => {
   const parsedSeconds = Number(match[3]);
 
   if (
-    parsedHours < 0 || parsedHours > 23 ||
-    parsedMinutes < 0 || parsedMinutes > 59 ||
-    parsedSeconds < 0 || parsedSeconds > 59
+    parsedHours > 23 ||
+    parsedMinutes > 59 ||
+    parsedSeconds > 59
   ) {
     return null;
   }
