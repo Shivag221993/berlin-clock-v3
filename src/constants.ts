@@ -17,7 +17,8 @@ export const CLASS_ON = 'on';
 export const CLASS_OFF = 'off';
 export const CLASS_QUARTER = 'quarter';
 export const CLASS_HOUR_LAMP = 'hour-lamp';
-export const CLASS_MINUTE_LAMP = 'minute-lamp';
+export const CLASS_MINUTE_LAMP_FIRST_ROW = 'minute-lamp-first-row';
+export const CLASS_MINUTE_LAMP_SECOND_ROW = 'minute-lamp-second-row';
 export const CLASS_SECONDS_CIRCLE = 'seconds-circle';
 export const CLASS_BERLIN_CLOCK = 'berlin-clock';
 

@@ -37,7 +37,7 @@
 }
 
 .hour-lamp {
-  width: 28px;
+  width: 60px;
   height: 28px;
   border-radius: 4px;
   background: #333;
@@ -61,7 +61,7 @@
   gap: 6px;
 }
 
-.minute-lamp {
+.minute-lamp-first-row {
   width: 18px;
   height: 28px;
   border-radius: 4px;
@@ -70,17 +70,37 @@
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 
-.minute-lamp.on {
+.minute-lamp-second-row {
+  width: 60px;
+  height: 28px;
+  border-radius: 4px;
+  background: #333;
+  transition: background 200ms, box-shadow 200ms, opacity 200ms;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.minute-lamp-first-row.on {
   background: #ffd400;
   box-shadow: 0 0 10px rgba(255, 212, 0, 0.6);
   opacity: 1;
 }
 
-.minute-lamp.quarter.on {
+.minute-lamp-first-row.quarter.on {
   background: #ff2b2b;
 }
 
-.minute-lamp.off {
+.minute-lamp-first-row.off {
+  background: #333;
+  opacity: 0.35;
+}
+
+.minute-lamp-second-row.on {
+  background: #ffd400;
+  box-shadow: 0 0 10px rgba(255, 212, 0, 0.6);
+  opacity: 1;
+}
+
+.minute-lamp-second-row.off {
   background: #333;
   opacity: 0.35;
 }

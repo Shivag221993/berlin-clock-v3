@@ -10,7 +10,8 @@ import {
   ARIA_SINGLE_MINUTE_ROW,
   CLASS_BERLIN_CLOCK,
   CLASS_HOUR_LAMP,
-  CLASS_MINUTE_LAMP,
+  CLASS_MINUTE_LAMP_FIRST_ROW,
+  CLASS_MINUTE_LAMP_SECOND_ROW,
   CLASS_OFF,
   CLASS_ON,
   CLASS_QUARTER,
@@ -137,7 +138,7 @@ export function BerlinClock() {
         {fiveMinuteLamps.map((lampOn, lampIndex) => (
           <span
             key={lampIndex}
-            className={`${CLASS_MINUTE_LAMP} ${lampOn ? CLASS_ON : CLASS_OFF} ${lampIndex % QUARTER_MINUTE_DIVISOR === QUARTER_MINUTE_REMAINDER ? CLASS_QUARTER : ''}`}
+            className={`${CLASS_MINUTE_LAMP_FIRST_ROW} ${lampOn ? CLASS_ON : CLASS_OFF} ${lampIndex % QUARTER_MINUTE_DIVISOR === QUARTER_MINUTE_REMAINDER ? CLASS_QUARTER : ''}`}
             data-testid={`${TEST_ID_FIVE_MINUTE_PREFIX}${lampIndex}`}
             aria-label={`${ARIA_FIVE_MINUTE_ROW} ${lampIndex} ${lampOn ? 'on' : 'off'}`}
           />
@@ -147,7 +148,7 @@ export function BerlinClock() {
         {singleMinuteLamps.map((lampOn, lampIndex) => (
           <span
             key={lampIndex}
-            className={`${CLASS_MINUTE_LAMP} ${lampOn ? CLASS_ON : CLASS_OFF}`}
+            className={`${CLASS_MINUTE_LAMP_SECOND_ROW} ${lampOn ? CLASS_ON : CLASS_OFF}`}
             data-testid={`${TEST_ID_SINGLE_MINUTE_PREFIX}${lampIndex}`}
             aria-label={`${ARIA_SINGLE_MINUTE_ROW} ${lampIndex} ${lampOn ? 'on' : 'off'}`}
           />

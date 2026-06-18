@@ -2,6 +2,11 @@ import { act, renderHook } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useCurrentTime } from '../hooks/useCurrentTime';
 
+const renderCurrentTimeHookAt = (isoString: string) => {
+  vi.setSystemTime(new Date(isoString));
+  return renderHook(() => useCurrentTime());
+};
+
 describe('useCurrentTime hook', () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -12,8 +17,7 @@ describe('useCurrentTime hook', () => {
   });
 
   it('should initialize with current time', () => {
-    vi.setSystemTime(new Date('2026-06-17T14:30:45'));
-    const { result } = renderHook(() => useCurrentTime());
+    const { result } = renderCurrentTimeHookAt('2026-06-17T14:30:45');
 
     expect(result.current.hours).toBe(14);
     expect(result.current.minutes).toBe(30);
@@ -21,8 +25,7 @@ describe('useCurrentTime hook', () => {
   });
 
   it('should update time every second', () => {
-    vi.setSystemTime(new Date('2026-06-17T14:30:45'));
-    const { result } = renderHook(() => useCurrentTime());
+    const { result } = renderCurrentTimeHookAt('2026-06-17T14:30:45');
 
     expect(result.current.seconds).toBe(45);
 
@@ -34,8 +37,7 @@ describe('useCurrentTime hook', () => {
   });
 
   it('should handle minute transition', () => {
-    vi.setSystemTime(new Date('2026-06-17T14:30:59'));
-    const { result } = renderHook(() => useCurrentTime());
+    const { result } = renderCurrentTimeHookAt('2026-06-17T14:30:59');
 
     expect(result.current.minutes).toBe(30);
     expect(result.current.seconds).toBe(59);
@@ -49,8 +51,7 @@ describe('useCurrentTime hook', () => {
   });
 
   it('should handle hour transition', () => {
-    vi.setSystemTime(new Date('2026-06-17T14:59:59'));
-    const { result } = renderHook(() => useCurrentTime());
+    const { result } = renderCurrentTimeHookAt('2026-06-17T14:59:59');
 
     expect(result.current.hours).toBe(14);
     expect(result.current.minutes).toBe(59);
@@ -65,8 +66,7 @@ describe('useCurrentTime hook', () => {
   });
 
   it('should cleanup interval on unmount', () => {
-    vi.setSystemTime(new Date('2026-06-17T14:30:45'));
-    const { unmount } = renderHook(() => useCurrentTime());
+    const { unmount } = renderCurrentTimeHookAt('2026-06-17T14:30:45');
 
     const clearIntervalSpy = vi.spyOn(globalThis, 'clearInterval');
     unmount();
