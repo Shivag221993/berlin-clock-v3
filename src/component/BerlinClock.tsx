@@ -109,13 +109,17 @@ export function BerlinClock() {
           {RESET_BUTTON_TEXT}
         </button>
       </div>
-      <div className={`${CLASS_SECONDS_CIRCLE} ${isSecondsOn ? CLASS_ON : CLASS_OFF}`} aria-label={ARIA_SECONDS_LAMP} />
+      <div
+        className={`${CLASS_SECONDS_CIRCLE} ${isSecondsOn ? CLASS_ON : CLASS_OFF}`}
+        aria-label={`${ARIA_SECONDS_LAMP} 0 ${isSecondsOn ? 'on' : 'off'}`}
+      />
       <div className="hours-row" aria-label={ARIA_FIVE_HOUR_ROW}>
         {fiveHourLamps.map((lampOn, lampIndex) => (
           <span
             key={lampIndex}
             className={`${CLASS_HOUR_LAMP} ${lampOn ? CLASS_ON : CLASS_OFF}`}
             data-testid={`${TEST_ID_FIVE_HOUR_PREFIX}${lampIndex}`}
+            aria-label={`${ARIA_FIVE_HOUR_ROW} ${lampIndex} ${lampOn ? 'on' : 'off'}`}
           />
         ))}
       </div>
@@ -125,6 +129,7 @@ export function BerlinClock() {
             key={lampIndex}
             className={`${CLASS_HOUR_LAMP} ${lampOn ? CLASS_ON : CLASS_OFF}`}
             data-testid={`${TEST_ID_SINGLE_HOUR_PREFIX}${lampIndex}`}
+            aria-label={`${ARIA_SINGLE_HOUR_ROW} ${lampIndex} ${lampOn ? 'on' : 'off'}`}
           />
         ))}
       </div>
@@ -134,6 +139,7 @@ export function BerlinClock() {
             key={lampIndex}
             className={`${CLASS_MINUTE_LAMP} ${lampOn ? CLASS_ON : CLASS_OFF} ${lampIndex % QUARTER_MINUTE_DIVISOR === QUARTER_MINUTE_REMAINDER ? CLASS_QUARTER : ''}`}
             data-testid={`${TEST_ID_FIVE_MINUTE_PREFIX}${lampIndex}`}
+            aria-label={`${ARIA_FIVE_MINUTE_ROW} ${lampIndex} ${lampOn ? 'on' : 'off'}`}
           />
         ))}
       </div>
@@ -143,6 +149,7 @@ export function BerlinClock() {
             key={lampIndex}
             className={`${CLASS_MINUTE_LAMP} ${lampOn ? CLASS_ON : CLASS_OFF}`}
             data-testid={`${TEST_ID_SINGLE_MINUTE_PREFIX}${lampIndex}`}
+            aria-label={`${ARIA_SINGLE_MINUTE_ROW} ${lampIndex} ${lampOn ? 'on' : 'off'}`}
           />
         ))}
       </div>

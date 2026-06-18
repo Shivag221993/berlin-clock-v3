@@ -21,11 +21,11 @@ export const CLASS_MINUTE_LAMP = 'minute-lamp';
 export const CLASS_SECONDS_CIRCLE = 'seconds-circle';
 export const CLASS_BERLIN_CLOCK = 'berlin-clock';
 
-export const ARIA_SECONDS_LAMP = 'seconds-lamp';
-export const ARIA_FIVE_HOUR_ROW = 'five-hour-row';
-export const ARIA_SINGLE_HOUR_ROW = 'single-hour-row';
-export const ARIA_FIVE_MINUTE_ROW = 'five-minute-row';
-export const ARIA_SINGLE_MINUTE_ROW = 'single-minute-row';
+export const ARIA_SECONDS_LAMP = 'seconds lamp';
+export const ARIA_FIVE_HOUR_ROW = 'five hour row';
+export const ARIA_SINGLE_HOUR_ROW = 'single hour row';
+export const ARIA_FIVE_MINUTE_ROW = 'five minute row';
+export const ARIA_SINGLE_MINUTE_ROW = 'single minute row';
 export const CURRENT_TIME_LABEL_TEXT = 'Current Time:';
 
 export const TEST_ID_FIVE_HOUR_PREFIX = 'five-hour-';

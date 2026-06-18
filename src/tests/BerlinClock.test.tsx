@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import BerlinClock from '../component/BerlinClock';
 
 describe('BerlinClock component (minimal)', () => {
@@ -8,7 +8,7 @@ describe('BerlinClock component (minimal)', () => {
     vi.setSystemTime(new Date('2026-06-17T12:00:58'));
 
     const { getByLabelText, getByText } = render(<BerlinClock />);
-    const lamp = getByLabelText('seconds-lamp');
+    const lamp = getByLabelText(/seconds lamp/i);
 
     expect(lamp.classList.contains('on')).toBe(true);
     expect(getByText(/Current Time:/).textContent).toContain('12:00:58');
@@ -21,7 +21,7 @@ describe('BerlinClock component (minimal)', () => {
     vi.setSystemTime(new Date('2026-06-17T12:00:59'));
 
     const { getByLabelText, getByText } = render(<BerlinClock />);
-    const lamp = getByLabelText('seconds-lamp');
+    const lamp = getByLabelText(/seconds lamp/i);
 
     expect(lamp.classList.contains('off')).toBe(true);
     expect(getByText(/Current Time:/).textContent).toContain('12:00:59');
