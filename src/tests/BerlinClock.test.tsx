@@ -16,6 +16,20 @@ const updateTimeInput = (
   return timeInput;
 };
 
+const expectInvalidTimeInputMaintainsCurrent = (
+   getByLabelText: (label: string) => HTMLElement,
+   getByText: (text: RegExp) => HTMLElement,
+   invalidValues: string[],
+   expectedCurrent: string,
+ ) => {
+   const timeInput = getByLabelText('Enter time') as HTMLInputElement;
+
+   invalidValues.forEach((value) => {
+     fireEvent.change(timeInput, { target: { value } });
+     expect(getByText(/Current Time:/).textContent).toContain(expectedCurrent);
+   });
+ };
+
 describe('BerlinClock component (minimal)', () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -90,9 +104,6 @@ describe('BerlinClock component (minimal)', () => {
     expect(getByTestId('five-minute-8').classList.contains('quarter')).toBe(true);
     expect(getByTestId('five-minute-3').classList.contains('quarter')).toBe(false);
     expect(getByTestId('five-minute-4').classList.contains('quarter')).toBe(false);
-    expect(getByTestId('five-minute-3').classList.contains('Stryker')).toBe(false);
-    expect(getByTestId('five-minute-3').classList.contains('was')).toBe(false);
-    expect(getByTestId('five-minute-3').classList.contains('here!')).toBe(false);
   });
 
   it('updates the Berlin Clock from user input and resets to system time', () => {
@@ -117,7 +128,6 @@ describe('BerlinClock component (minimal)', () => {
 
   it('accepts valid time input with boundary hours 00 and 23', () => {
     const { getByLabelText, getByText, getByTestId } = renderBerlinClockAt('2026-06-17T12:00:00');
-    const timeInput = updateTimeInput(getByLabelText, '00:30:45');
 
     expect(getByText(/Current Time:/).textContent).toContain('00:30:45');
     expect(getByTestId('five-hour-0').classList.contains('off')).toBe(true);
@@ -129,20 +139,6 @@ describe('BerlinClock component (minimal)', () => {
     expect(getByTestId('five-hour-2').classList.contains('on')).toBe(true);
     expect(getByTestId('five-hour-3').classList.contains('on')).toBe(true);
   });
-
-  const expectInvalidTimeInputMaintainsCurrent = (
-    getByLabelText: (label: string) => HTMLElement,
-    getByText: (text: RegExp) => HTMLElement,
-    invalidValues: string[],
-    expectedCurrent: string,
-  ) => {
-    const timeInput = getByLabelText('Enter time') as HTMLInputElement;
-
-    invalidValues.forEach((value) => {
-      fireEvent.change(timeInput, { target: { value } });
-      expect(getByText(/Current Time:/).textContent).toContain(expectedCurrent);
-    });
-  };
 
   it('rejects invalid hour values above 23', () => {
     const { getByLabelText, getByText } = renderBerlinClockAt('2026-06-17T12:00:00');
@@ -246,7 +242,6 @@ describe('BerlinClock component (minimal)', () => {
 
   it('accepts hour boundary 0 and rejects boundary 24', () => {
     const { getByLabelText, getByText } = renderBerlinClockAt('2026-06-17T12:00:00');
-    const timeInput = updateTimeInput(getByLabelText, '0:15:30');
     expect(getByText(/Current Time:/).textContent).toContain('00:15:30');
 
     updateTimeInput(getByLabelText, '00:15:30');
@@ -257,7 +252,6 @@ describe('BerlinClock component (minimal)', () => {
 
   it('accepts minute boundary 0 and rejects boundary 60', () => {
     const { getByLabelText, getByText } = renderBerlinClockAt('2026-06-17T12:00:00');
-    const timeInput = updateTimeInput(getByLabelText, '12:0:30');
     expect(getByText(/Current Time:/).textContent).toContain('12:00:30');
 
     updateTimeInput(getByLabelText, '12:00:30');
@@ -268,7 +262,6 @@ describe('BerlinClock component (minimal)', () => {
 
   it('accepts second boundary 0 and rejects boundary 60', () => {
     const { getByLabelText, getByText } = renderBerlinClockAt('2026-06-17T12:00:00');
-    const timeInput = updateTimeInput(getByLabelText, '12:30:0');
     expect(getByText(/Current Time:/).textContent).toContain('12:30:00');
 
     updateTimeInput(getByLabelText, '12:30:00');

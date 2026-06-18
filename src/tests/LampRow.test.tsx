@@ -5,11 +5,12 @@ import { CLASS_ON, CLASS_OFF, CLASS_QUARTER } from '../constants';
 
 describe('LampRow component', () => {
   it('renders a row with the provided class and aria-label', () => {
+    const fiveMinuteStates = [true, false];
     const { container } = render(
       <LampRow
         rowClassName="test-row"
         rowAriaLabel="Test row"
-        lampStates={[true, false]}
+        lampStates={fiveMinuteStates}
         lampClassName="lamp"
         testIdPrefix="test-lamp-"
         ariaLabelPrefix="Lamp"
@@ -22,11 +23,12 @@ describe('LampRow component', () => {
   });
 
   it('renders lamps with on/off classes based on state', () => {
+    const fiveMinuteStates = [true, false, true];
     const { getByTestId } = render(
       <LampRow
         rowClassName="test-row"
         rowAriaLabel="Test row"
-        lampStates={[true, false, true]}
+        lampStates={fiveMinuteStates}
         lampClassName="lamp"
         testIdPrefix="test-lamp-"
         ariaLabelPrefix="Lamp"
@@ -40,11 +42,12 @@ describe('LampRow component', () => {
   });
 
   it('applies additional lamp class for each lamp index', () => {
+    const fiveMinuteStates = [true, true, true];
     const { getByTestId } = render(
       <LampRow
         rowClassName="test-row"
         rowAriaLabel="Test row"
-        lampStates={[true, true, true]}
+        lampStates={fiveMinuteStates}
         lampClassName="lamp"
         testIdPrefix="test-lamp-"
         ariaLabelPrefix="Lamp"
@@ -58,11 +61,12 @@ describe('LampRow component', () => {
   });
 
   it('adds aria-labels for each lamp based on the ariaLabelPrefix and index', () => {
+    const fiveMinuteStates = [true, false];
     const { getByLabelText } = render(
       <LampRow
         rowClassName="test-row"
         rowAriaLabel="Test row"
-        lampStates={[true, false]}
+        lampStates={fiveMinuteStates}
         lampClassName="lamp"
         testIdPrefix="test-lamp-"
         ariaLabelPrefix="Lamp"
