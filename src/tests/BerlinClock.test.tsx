@@ -127,7 +127,7 @@ describe('BerlinClock component (minimal)', () => {
   });
 
   it('accepts valid time input with boundary hours 00 and 23', () => {
-    const { getByLabelText, getByText, getByTestId } = renderBerlinClockAt('2026-06-17T12:00:00');
+    const { getByLabelText, getByText, getByTestId } = renderBerlinClockAt('2026-06-17T00:30:45');
 
     expect(getByText(/Current Time:/).textContent).toContain('00:30:45');
     expect(getByTestId('five-hour-0').classList.contains('off')).toBe(true);
@@ -241,7 +241,7 @@ describe('BerlinClock component (minimal)', () => {
   });
 
   it('accepts hour boundary 0 and rejects boundary 24', () => {
-    const { getByLabelText, getByText } = renderBerlinClockAt('2026-06-17T12:00:00');
+    const { getByLabelText, getByText } = renderBerlinClockAt('2026-06-17T00:15:30');
     expect(getByText(/Current Time:/).textContent).toContain('00:15:30');
 
     updateTimeInput(getByLabelText, '00:15:30');
@@ -251,7 +251,7 @@ describe('BerlinClock component (minimal)', () => {
   });
 
   it('accepts minute boundary 0 and rejects boundary 60', () => {
-    const { getByLabelText, getByText } = renderBerlinClockAt('2026-06-17T12:00:00');
+    const { getByLabelText, getByText } = renderBerlinClockAt('2026-06-17T12:00:30');
     expect(getByText(/Current Time:/).textContent).toContain('12:00:30');
 
     updateTimeInput(getByLabelText, '12:00:30');
@@ -261,7 +261,7 @@ describe('BerlinClock component (minimal)', () => {
   });
 
   it('accepts second boundary 0 and rejects boundary 60', () => {
-    const { getByLabelText, getByText } = renderBerlinClockAt('2026-06-17T12:00:00');
+    const { getByLabelText, getByText } = renderBerlinClockAt('2026-06-17T12:30:00');
     expect(getByText(/Current Time:/).textContent).toContain('12:30:00');
 
     updateTimeInput(getByLabelText, '12:30:00');
